@@ -136,17 +136,23 @@ function handleSaveClick(button) {
 }
 
 function handleDeleteClick(button) {
-  const row = button.closest("tr");
-  const isbn = row.querySelector("td:nth-child(3)").textContent.trim();
+  let confirmationText = "Would you like to delete this book from your book list?"
+  if (confirm(confirmationText) == true) {
+    const row = button.closest("tr");
+    const isbn = row.querySelector("td:nth-child(3)").textContent.trim();
 
-  const bookIndex = books.findIndex((book) => book.isbn === isbn);
-  books.splice(bookIndex, 1);
+    const bookIndex = books.findIndex((book) => book.isbn === isbn);
+    books.splice(bookIndex, 1);
 
-  row.remove();
+    row.remove();
 
-  saveBooksToStorage();
+    saveBooksToStorage();
 
-  displayNotification("Book removed successfully", "danger");
+    displayNotification("Book removed successfully", "danger");
+  } else {
+    displayNotification('Book was not removed', 'warning')
+  }
+  
 }
 
 function displayNotification(message, type) {
